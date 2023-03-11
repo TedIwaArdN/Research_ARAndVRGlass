@@ -12,7 +12,7 @@ public class GetPositionInfo : MonoBehaviour {
     float rot_x, rot_y, rot_z;
     float acc_x, acc_y, acc_z;
     float acc_ini_x, acc_ini_y, acc_ini_z;
-    //float vel_x, vel_y, vel_z;
+    float vel_x, vel_y, vel_z;
     Vector3 initial_position;
     Rigidbody objectRigidbody;
 
@@ -93,12 +93,11 @@ public class GetPositionInfo : MonoBehaviour {
                     rot_ini_x = float.Parse(datas[0]);
                     rot_ini_y = float.Parse(datas[1]);
                     rot_ini_z = float.Parse(datas[2]);
-                    acc_ini_x = float.Parse(datas[3]);
-                    acc_ini_y = float.Parse(datas[4]);
-                    acc_ini_z = float.Parse(datas[5]);
+                    acc_x = acc_ini_x = float.Parse(datas[3]);
+                    acc_y = acc_ini_y = float.Parse(datas[4]);
+                    acc_z = acc_ini_z = float.Parse(datas[5]);
                     transform.position = initial_position;
-                    //vel_x = vel_y = vel_z = 0.0f;
-                    acc_x = acc_y = acc_z = 0.0f;
+                    vel_x = vel_y = vel_z = 0.0f;
                 }
                 catch (Exception) {
                     Debug.Log("Change value failed");
@@ -121,16 +120,19 @@ public class GetPositionInfo : MonoBehaviour {
     }
 
     void UpdatePosition() {
-        //objectRigidbody.AddForce(acc_ini_x - acc_x, acc_ini_y - acc_y, acc_ini_z - acc_z, ForceMode.Acceleration);
+        //objectRigidbody.AddForce(Vector3.up * 9.8f * Time.deltaTime, ForceMode.Force);
         //acc_ini_x = acc_x;
         //acc_ini_y = acc_y;
         //acc_ini_z = acc_z;
-        transform.Translate(0.5f * acc_x * 0.1f * 0.1f, 
-            -(0.5f * acc_y * 0.1f * 0.1f),
-            -(0.5f * acc_z * 0.1f * 0.1f));
-        //vel_x += acc_x * Time.deltaTime;
-        //vel_y += acc_y * Time.deltaTime;
-        //vel_z += acc_z * Time.deltaTime;
+        if (acc_x == 0) vel_x = 0;
+        if (acc_y == 0) vel_y = 0;
+        if (acc_z == 0) vel_z = 0;
+        transform.Translate((vel_x + 0.5f * acc_x * 0.1f) * Time.deltaTime, 
+            -(vel_y + 0.5f * acc_y * 0.1f) * Time.deltaTime,
+            -(vel_z + 0.5f * acc_z * 0.1f) * Time.deltaTime);
+        vel_x += acc_x * Time.deltaTime;
+        vel_y += acc_y * Time.deltaTime;
+        vel_z += acc_z * Time.deltaTime;
 
     }
 
