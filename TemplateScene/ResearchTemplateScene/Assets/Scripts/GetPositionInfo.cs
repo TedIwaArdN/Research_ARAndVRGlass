@@ -12,7 +12,7 @@ public class GetPositionInfo : MonoBehaviour {
     float rot_x, rot_y, rot_z;
     float acc_x, acc_y, acc_z;
     float acc_ini_x, acc_ini_y, acc_ini_z;
-    float vel_x, vel_y, vel_z;
+    //float vel_x, vel_y, vel_z;
     Vector3 initial_position;
     Rigidbody objectRigidbody;
 
@@ -30,6 +30,7 @@ public class GetPositionInfo : MonoBehaviour {
         ReceiveData();
         UpdateRotation();
         UpdatePosition();
+        StartCoroutine(WaitForDelay(0.1f));
 
     }
 
@@ -96,7 +97,7 @@ public class GetPositionInfo : MonoBehaviour {
                     acc_ini_y = float.Parse(datas[4]);
                     acc_ini_z = float.Parse(datas[5]);
                     transform.position = initial_position;
-                    vel_x = vel_y = vel_z = 0.0f;
+                    //vel_x = vel_y = vel_z = 0.0f;
                     acc_x = acc_y = acc_z = 0.0f;
                 }
                 catch (Exception) {
@@ -124,16 +125,20 @@ public class GetPositionInfo : MonoBehaviour {
         //acc_ini_x = acc_x;
         //acc_ini_y = acc_y;
         //acc_ini_z = acc_z;
-        transform.Translate(0.5f * acc_x * Time.deltaTime * Time.deltaTime, 
-            -(0.5f * acc_y * Time.deltaTime * Time.deltaTime),
-            -(0.5f * acc_z * Time.deltaTime * Time.deltaTime));
-        vel_x += acc_x * Time.deltaTime;
-        vel_y += acc_y * Time.deltaTime;
-        vel_z += acc_z * Time.deltaTime;
+        transform.Translate(0.5f * acc_x * 0.1f * 0.1f, 
+            -(0.5f * acc_y * 0.1f * 0.1f),
+            -(0.5f * acc_z * 0.1f * 0.1f));
+        //vel_x += acc_x * Time.deltaTime;
+        //vel_y += acc_y * Time.deltaTime;
+        //vel_z += acc_z * Time.deltaTime;
 
     }
 
     float Abs(float x) {
         return x > 0.0f ? x : -x;
+    }
+
+    IEnumerator WaitForDelay(float sec) {
+        yield return new WaitForSeconds(sec);
     }
 }
