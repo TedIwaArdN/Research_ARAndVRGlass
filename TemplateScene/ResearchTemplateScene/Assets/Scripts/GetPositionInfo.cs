@@ -128,8 +128,8 @@ public class GetPositionInfo : MonoBehaviour {
         if (acc_y == 0) vel_y = 0;
         if (acc_z == 0) vel_z = 0;
         transform.Translate((vel_x + 0.5f * acc_x * 0.1f) * Time.deltaTime, 
-            -(vel_y + 0.5f * acc_y * 0.1f) * Time.deltaTime,
-            -(vel_z + 0.5f * acc_z * 0.1f) * Time.deltaTime);
+            (vel_z + 0.5f * acc_z * 0.1f) * Time.deltaTime,
+            (vel_y + 0.5f * acc_y * 0.1f) * Time.deltaTime);
         vel_x += acc_x * Time.deltaTime;
         vel_y += acc_y * Time.deltaTime;
         vel_z += acc_z * Time.deltaTime;
