@@ -11,6 +11,7 @@ public class GetPositionInfo : MonoBehaviour {
     float rot_ini_x, rot_ini_y, rot_ini_z;
     float rot_x, rot_y, rot_z;
     float acc_x, acc_y, acc_z;
+    float acc_last_x, acc_last_y, acc_last_z;
     float acc_ini_x, acc_ini_y, acc_ini_z;
     float vel_x, vel_y, vel_z;
     Vector3 initial_position;
@@ -124,16 +125,18 @@ public class GetPositionInfo : MonoBehaviour {
         //acc_ini_x = acc_x;
         //acc_ini_y = acc_y;
         //acc_ini_z = acc_z;
-        if (acc_x == 0) vel_x = 0;
-        if (acc_y == 0) vel_y = 0;
-        if (acc_z == 0) vel_z = 0;
+        if (acc_x == 0 || Abs(acc_x - acc_last_x) < 0.2f) vel_x = 0;
+        if (acc_y == 0 || Abs(acc_y - acc_last_y) < 0.2f) vel_y = 0;
+        if (acc_z == 0 || Abs(acc_z - acc_last_z) < 0.2f) vel_z = 0;
         transform.Translate((vel_x + 0.5f * acc_x * 0.1f) * Time.deltaTime, 
-            (vel_z + 0.5f * acc_z * 0.1f) * Time.deltaTime,
-            (vel_y + 0.5f * acc_y * 0.1f) * Time.deltaTime);
+            -(vel_y + 0.5f * acc_y * 0.1f) * Time.deltaTime,
+            (vel_z + 0.5f * acc_z * 0.1f) * Time.deltaTime);
         vel_x += acc_x * Time.deltaTime;
         vel_y += acc_y * Time.deltaTime;
         vel_z += acc_z * Time.deltaTime;
-
+        acc_last_x = acc_x;
+        acc_last_y = acc_y;
+        acc_last_z = acc_z;
     }
 
     float Abs(float x) {
