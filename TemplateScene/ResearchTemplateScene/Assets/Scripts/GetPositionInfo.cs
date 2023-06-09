@@ -21,7 +21,7 @@ public class GetPositionInfo : MonoBehaviour {
     void Start() {
         serialPort = new SerialPort(portName, baudrate);
         serialPort.Open();
-        initial_position = new Vector3(-1.4f, 0.2f, -2.0f);
+        initial_position = new Vector3(-1.55f, 1, -1.93f);
         objectRigidbody = GetComponent<Rigidbody>();
 
     }
@@ -30,7 +30,7 @@ public class GetPositionInfo : MonoBehaviour {
     void Update() {
         ReceiveData();
         UpdateRotation();
-        UpdatePosition();
+        //UpdatePosition();
         StartCoroutine(WaitForDelay(0.1f));
 
     }
@@ -97,7 +97,7 @@ public class GetPositionInfo : MonoBehaviour {
                     acc_x = acc_ini_x = float.Parse(datas[3]);
                     acc_y = acc_ini_y = float.Parse(datas[4]);
                     acc_z = acc_ini_z = float.Parse(datas[5]);
-                    transform.position = initial_position;
+                    //transform.position = initial_position;
                     vel_x = vel_y = vel_z = 0.0f;
                 }
                 catch (Exception) {
@@ -116,7 +116,7 @@ public class GetPositionInfo : MonoBehaviour {
     }
 
     void UpdateRotation() {
-        gameObject.transform.rotation = Quaternion.Euler(rot_ini_x - rot_x, rot_y - rot_ini_y, rot_ini_z - rot_z);
+        gameObject.transform.rotation = Quaternion.Euler(rot_ini_x - rot_x, rot_ini_z - rot_z, rot_y - rot_ini_y);
 
     }
 
